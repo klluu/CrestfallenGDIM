@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Patrol : MonoBehaviour
 {
-    private float speed = 3f;
-    private float distance = 2f;
+    private float speed = 7f;
+    private float distance = 10f;
     private bool movingRight = true;
     public Transform groundDetection;
 
