@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D body;
-    private float moveSpeed = 10;
-    private float jumpSpeed = 7;
+    private float moveSpeed = 15;
+    private float jumpSpeed = 20;
     bool isJumping = false;
 
     void Start()
