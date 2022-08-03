@@ -2,42 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Patrol : MonoBehaviour
+public class AIPatrol : MonoBehaviour
 {
+    public float walkSpeed;
     private bool mustPatrol;
-    
+    private bool mustTurn;
 
-    private float speed = 10f;
-    private float distance = 10f;
-    
+    public Rigidbody2D rb;
     public Transform groundDetection;
     public LayerMask groundLayer;
-
 
     void Start()
     {
         mustPatrol = true;
     }
 
-
+    // Update is called once per frame
     void Update()
     {
         if (mustPatrol)
         {
-            Patrolling();
+            Patrol();
         }
-        
     }
 
-    void Patrolling()
+    private void FixedUpdate()
     {
-        transform.Translate(Vector2.right * speed * Time.deltaTime);
+        if (mustPatrol)
+        {
+            mustTurn = !Physics2D.OverlapCircle(groundDetection.position, 0.1f, groundLayer);
+        }
+    }
 
-        RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distance);
-        if (groundInfo.collider == false)
+    void Patrol()
+    {
+        if (mustTurn)
         {
             Flip();
         }
+        rb.velocity = new Vector2(walkSpeed * Time.fixedDeltaTime, rb.velocity.y);
 
     }
 
@@ -45,7 +48,7 @@ public class Patrol : MonoBehaviour
     {
         mustPatrol = false;
         transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
-        speed *= -1;
+        walkSpeed *= -1;
         mustPatrol = true;
     }
 

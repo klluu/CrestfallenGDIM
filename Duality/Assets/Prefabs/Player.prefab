@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 8964062983072785220}
   - component: {fileID: 9064112001286426273}
   - component: {fileID: 2366980964511408633}
-  - component: {fileID: 1988367382}
+  - component: {fileID: 1621579817}
+  - component: {fileID: 1621579813}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -94,11 +95,11 @@ BoxCollider2D:
   m_GameObject: {fileID: 7634122768142177241}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 41c84a81a2a67fc4e8ac5fd2e17737bc, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.116181016}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -109,7 +110,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 0.76763797}
   m_EdgeRadius: 0
 --- !u!50 &2366980964511408633
 Rigidbody2D:
@@ -126,13 +127,39 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &1988367382
+--- !u!61 &1621579817
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7634122768142177241}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0018148422, y: -0.38403463}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.58247375, y: 0.23609304}
+  m_EdgeRadius: 0
+--- !u!114 &1621579813
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -141,6 +168,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7634122768142177241}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f523a0dcd43637941b553229c5235a82, type: 3}
+  m_Script: {fileID: 11500000, guid: 06015871b70612c4d838a42c3138b6ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 2366980964511408633}
+  ground:
+    serializedVersion: 2
+    m_Bits: 8
+  footCollider: {fileID: 1621579817}
