@@ -96,5 +96,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3448889b0bfcc7449b4d636829be63d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  offset: {x: 8, y: 9, z: 0}
