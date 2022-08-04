@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class Patrol : MonoBehaviour
 {
-    private bool mustPatrol;
-    
 
+    // Controller Essentials
+    [SerializeField]
+    private Rigidbody2D _rb;
+    [SerializeField]
+    private EntityManager _entity;
+
+    // Movement Variables
+    private bool mustPatrol;
     private float speed = 10f;
     private float distance = 10f;
     
+
+    // Ground Detection
     public Transform groundDetection;
     public LayerMask groundLayer;
 

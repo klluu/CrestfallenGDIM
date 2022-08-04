@@ -4,16 +4,28 @@ using UnityEngine;
 
 public class RangedEnemy : MonoBehaviour
 {
+
+    // RangedEnemy Controller Essentials
+    [SerializeField]
+    private Rigidbody2D _rb;
+    [SerializeField]
+    private EntityManager _entity;
+
+
     private bool mustPatrol;
     private bool canShoot;
     
+    // Movement Variables
     private float speed = 10f;
     private float distance = 10f;
     
+    // Ground Detection
     public Transform groundDetection;
     public LayerMask groundLayer;
     public Rigidbody2D rb;
 
+    
+    // Shooting Projectile
     public Transform player;
     public Transform shootPos;
 

@@ -73,9 +73,10 @@ GameObject:
   - component: {fileID: 7776241545915508393}
   - component: {fileID: 7776241545915508398}
   - component: {fileID: 419213004}
+  - component: {fileID: 566568833425019515}
   m_Layer: 0
   m_Name: Ranged Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -156,7 +157,7 @@ Rigidbody2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6027866728105231517}
   m_BodyType: 0
-  m_Simulated: 0
+  m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
@@ -166,7 +167,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &7776241545915508398
 BoxCollider2D:
@@ -206,6 +207,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35b304ae22acc6444827f49de1ff9a0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rb: {fileID: 7776241545915508393}
+  _entity: {fileID: 566568833425019515}
   groundDetection: {fileID: 6027866727680926640}
   groundLayer:
     serializedVersion: 2
@@ -215,3 +218,17 @@ MonoBehaviour:
   shootPos: {fileID: 3182236}
   range: 20
   bullet: {fileID: 8657479441446908041, guid: f39dbd9919081ab42965db2f36e5acca, type: 3}
+--- !u!114 &566568833425019515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6027866728105231517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71a49912cd6d9ab4391ca52c9ce11b3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHealth: 100
+  Health: 0

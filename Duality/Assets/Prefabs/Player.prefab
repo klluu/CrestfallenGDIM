@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1621579817}
   - component: {fileID: 3309022043685386979}
   - component: {fileID: 1693359791}
+  - component: {fileID: 1453652248}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -128,11 +129,11 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 2
+  m_GravityScale: 4
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &1621579817
 BoxCollider2D:
@@ -198,9 +199,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a7ff0f363d4a15448a307ce78e75d2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 2366980964511408633}
-  ground:
+  _rb: {fileID: 2366980964511408633}
+  _entity: {fileID: 1453652248}
+  mapMask:
     serializedVersion: 2
     m_Bits: 8
-  footCollider: {fileID: 3309022043685386979}
-  fallDetector: {fileID: 0}
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &1453652248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7634122768142177241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71a49912cd6d9ab4391ca52c9ce11b3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHealth: 100
+  Health: 0

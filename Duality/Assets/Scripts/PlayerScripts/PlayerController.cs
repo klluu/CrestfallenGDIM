@@ -4,88 +4,70 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private float walkSpeed = 1000;
-    private float jumpVelocity = 1500;
-    private float jumpWaitTime = 0.05f;
-    private float jumpWaitTimer;
-    public Rigidbody2D rb;
+    // Player Controller Essentials
+    [SerializeField]
+    private Rigidbody2D _rb;
+    [SerializeField]
+    private EntityManager _entity;
 
-    public LayerMask ground;
-    public Collider2D footCollider;
+    // Movement Variables
+    [SerializeField]
+    private LayerMask mapMask;
+    [SerializeField]
+    private LayerMask enemyMask;
+    private Vector2 _moveDirection = Vector2.zero;
+    private float _moveSpeed = 25f;
+    private float _jumpPower = 10f;
+    private float _ungroundable = 0f;
+    private bool _grounded = true;
 
-    private bool isGrounded;
-
-    private Vector3 respawnPoint;
-    public GameObject fallDetector;
-
-
-    void Start()
+    private bool GroundCheck()
     {
-        respawnPoint = transform.position;
-    }
-
-    
-    void Update()
-    {
-        isGrounded = footCollider.IsTouchingLayers(ground);
-        Walking();
-        Jumping();
-
-        fallDetector.transform.position = new Vector2(transform.position.x, fallDetector.transform.position.y);
-    }
-
-    void Walking()
-    {
-        float direction = Input.GetAxisRaw("Horizontal");
-
-        rb.velocity = new Vector2(walkSpeed * direction * Time.fixedDeltaTime, rb.velocity.y);
-
-        if (direction != 0f)
+        if (Time.time > _ungroundable)
         {
-            transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x) * direction, transform.localScale.y);
+            RaycastHit2D hit = Physics2D.CircleCast(transform.position, .9f, Vector2.down, 1.5f, mapMask);
 
-        }
-    }
-
-    void Jumping()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (isGrounded || jumpWaitTimer > 0f)
+            if (hit.collider != null)
             {
-                Jump();
+                //transform.position = new Vector2(transform.position.x, hit.point.y + 1.5f);
+
+                return true;
             }
         }
 
-        //Timer
-        if (isGrounded)
+        return false;
+    }
+
+    private void Update()
+    {
+        float moveX = Input.GetAxis("Horizontal") * _moveSpeed;
+        _moveDirection = new Vector2(moveX, _rb.velocity.y);
+
+        bool jumped = Input.GetButton("Jump");
+        bool attack = Input.GetMouseButton(0);
+
+        if (jumped && _grounded)
         {
-            jumpWaitTimer = jumpWaitTime;
+            _moveDirection.y = _jumpPower;
+            _ungroundable = Time.time + .1f;
         }
-        else
+
+        if (attack)
         {
-            if (jumpWaitTimer > 0f)
+            RaycastHit2D hitResult = Physics2D.BoxCast(transform.position, new Vector2(2, 3), 0, transform.forward, 10f, enemyMask);
+
+            if (hitResult && hitResult.transform.CompareTag("Enemy"))
             {
-                jumpWaitTimer -= Time.deltaTime;
+                hitResult.transform.GetComponent<EntityManager>().TakeDamage(1f);
             }
         }
+
+        _rb.velocity = _moveDirection;
     }
 
-    void Jump()
+    private void FixedUpdate()
     {
-        rb.velocity = new Vector2(rb.velocity.x, jumpVelocity * Time.fixedDeltaTime);
+        _grounded = GroundCheck();
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.tag == "FallDetector")
-        {
-            transform.position = respawnPoint;
-        }
-        if (col.tag == "Checkpoint")
-        {
-            Debug.Log("CHECKPOINT");
-            respawnPoint = col.transform.position;
-        }
-    }
 }
