@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     private LayerMask enemyMask;
     private Vector2 _moveDirection = Vector2.zero;
     private float _moveSpeed = 25f;
-    private float _jumpPower = 10f;
+    private float _jumpPower = 800f;
     private float _ungroundable = 0f;
     private bool _grounded = true;
 
@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
 
         if (jumped && _grounded)
         {
-            _moveDirection.y = _jumpPower;
+            _moveDirection.y = _jumpPower *10;
             _ungroundable = Time.time + .1f;
         }
 
