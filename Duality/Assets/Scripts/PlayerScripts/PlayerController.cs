@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private float walkSpeed = 1000;
-    private float jumpVelocity = 1000;
+    private float jumpVelocity = 1500;
     private float jumpWaitTime = 0.05f;
     private float jumpWaitTimer;
     public Rigidbody2D rb;
@@ -81,6 +81,11 @@ public class PlayerController : MonoBehaviour
         if (col.tag == "FallDetector")
         {
             transform.position = respawnPoint;
+        }
+        if (col.tag == "Checkpoint")
+        {
+            Debug.Log("CHECKPOINT");
+            respawnPoint = col.transform.position;
         }
     }
 }
