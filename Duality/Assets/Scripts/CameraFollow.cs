@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     private float followSpeed = 7f;
-    private float yPos = 1f;
+    private float yPos = 0.5f;
     private Transform player;
 
     void Start()

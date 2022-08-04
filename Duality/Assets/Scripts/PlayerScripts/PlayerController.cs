@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     private float walkSpeed = 1000;
     private float jumpVelocity = 1000;
@@ -13,13 +13,15 @@ public class Movement : MonoBehaviour
     public LayerMask ground;
     public Collider2D footCollider;
 
-
     private bool isGrounded;
+
+    private Vector3 respawnPoint;
+    public GameObject fallDetector;
 
 
     void Start()
     {
-        
+        respawnPoint = transform.position;
     }
 
     
@@ -28,6 +30,8 @@ public class Movement : MonoBehaviour
         isGrounded = footCollider.IsTouchingLayers(ground);
         Walking();
         Jumping();
+
+        fallDetector.transform.position = new Vector2(transform.position.x, fallDetector.transform.position.y);
     }
 
     void Walking()
@@ -70,5 +74,13 @@ public class Movement : MonoBehaviour
     void Jump()
     {
         rb.velocity = new Vector2(rb.velocity.x, jumpVelocity * Time.fixedDeltaTime);
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.tag == "FallDetector")
+        {
+            transform.position = respawnPoint;
+        }
     }
 }
