@@ -16,7 +16,7 @@ public class RangedEnemy : MonoBehaviour
     private bool canShoot;
     
     // Movement Variables
-    private float speed = 10f;
+    private float speed = 1000f;
     private float distance = 10f;
     
     // Ground Detection
@@ -32,7 +32,7 @@ public class RangedEnemy : MonoBehaviour
     public float range;
     private float distToPlayer;
     private float timeShoot = 2f;
-    private float shootSpeed = 100f;
+    private float shootSpeed = 750f;
 
     public GameObject bullet;
 
@@ -40,6 +40,8 @@ public class RangedEnemy : MonoBehaviour
     {
         mustPatrol = true;
         canShoot = true;
+
+        _entity.onDeath += Death;
     }
 
 
@@ -75,7 +77,8 @@ public class RangedEnemy : MonoBehaviour
 
     void Patrolling()
     {
-        transform.Translate(Vector2.right * speed * Time.deltaTime);
+        Vector2 moveDir = Vector2.right * speed * Time.deltaTime;
+        _rb.velocity = new Vector2(moveDir.x, _rb.velocity.y);
 
         RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distance);
         if (groundInfo.collider == false)
@@ -99,9 +102,14 @@ public class RangedEnemy : MonoBehaviour
         
         GameObject newBullet = Instantiate(bullet, shootPos.position, Quaternion.identity);
 
-        newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * speed * Time.fixedDeltaTime, 0);
+        newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * Mathf.Sign(speed) * Time.fixedDeltaTime, 0);
         yield return new WaitForSeconds(timeShoot);
         
         canShoot = true;
+    }
+
+    private void Death()
+    {
+        Destroy(gameObject);
     }
 }

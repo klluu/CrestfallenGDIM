@@ -6,10 +6,10 @@ public class EntityManager : MonoBehaviour
 {
     // Entity Essentials
     public delegate void OnDeath();
-    OnDeath onDeath;
+    public OnDeath onDeath;
 
     public delegate void OnDamage(float healthDif);
-    OnDamage onDamage;
+    public OnDamage onDamage;
 
     // Stats Variables
     public float MaxHealth = 100;
@@ -37,15 +37,13 @@ public class EntityManager : MonoBehaviour
             onDamage?.Invoke(prevHealth - Health);
         }
 
-        print(Health);
-
         return Health;
     }
 
     private void Dead()
     {
         // Play Dead Animation?
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 
 
