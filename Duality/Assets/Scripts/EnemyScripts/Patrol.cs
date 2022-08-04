@@ -4,12 +4,21 @@ using UnityEngine;
 
 public class Patrol : MonoBehaviour
 {
+
+    // Controller Essentials
+    [SerializeField]
+    private Rigidbody2D _rb;
+    [SerializeField]
+    private EntityManager _entity;
+
+    // Movement Variables
     private bool mustPatrol;
+    private float speed = 1000f;
+    private float distance = 10f;
+    [SerializeField] private float contactDamage = 100f;
     
 
-    private float speed = 10f;
-    private float distance = 10f;
-    
+    // Ground Detection
     public Transform groundDetection;
     public LayerMask groundLayer;
 
@@ -17,6 +26,8 @@ public class Patrol : MonoBehaviour
     void Start()
     {
         mustPatrol = true;
+
+        _entity.onDeath += Death;
     }
 
 
@@ -31,7 +42,8 @@ public class Patrol : MonoBehaviour
 
     void Patrolling()
     {
-        transform.Translate(Vector2.right * speed * Time.deltaTime);
+        Vector2 moveDir = Vector2.right * speed * Time.deltaTime;
+        _rb.velocity = new Vector2(moveDir.x, _rb.velocity.y);
 
         RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distance);
         if (groundInfo.collider == false)
@@ -49,4 +61,18 @@ public class Patrol : MonoBehaviour
         mustPatrol = true;
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            EntityManager entity = collision.gameObject.GetComponent<EntityManager>();
+
+            entity.TakeDamage(contactDamage);
+        }
+    }
+
+    private void Death()
+    {
+        Destroy(gameObject);
+    }
 }

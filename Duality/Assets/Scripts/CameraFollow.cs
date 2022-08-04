@@ -1,25 +1,23 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public Transform target;
-    public Vector3 offset;
+    private float followSpeed = 7f;
+    private float yPos = 0.5f;
+    private Transform player;
 
     void Start()
     {
-        
+        player = GameObject.Find("Player").transform;
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
-        Follow();
-    }
+        Vector2 targetPos = player.position;
+        Vector2 smoothPos = Vector2.Lerp(transform.position, targetPos, followSpeed * Time.deltaTime);
 
-    void Follow()
-    {
-        Vector3 targetPosition = target.position + offset;
-        transform.position = targetPosition;
+        transform.position = new Vector3(smoothPos.x + 1f, smoothPos.y + yPos, -15f);
     }
 }
