@@ -13,10 +13,10 @@ public class Patrol : MonoBehaviour
 
     // Movement Variables
     private bool mustPatrol;
-    private float speed = 1000f;
+    private float speed = 10;
     private float distance = 10f;
     [SerializeField] private float contactDamage = 100f;
-    
+
 
     // Ground Detection
     public Transform groundDetection;
@@ -37,13 +37,13 @@ public class Patrol : MonoBehaviour
         {
             Patrolling();
         }
-        
+
     }
 
     void Patrolling()
     {
-        Vector2 moveDir = Vector2.right * speed * Time.deltaTime;
-        _rb.velocity = new Vector2(moveDir.x, _rb.velocity.y);
+        Vector2 moveDir = Vector2.right * speed;
+        _rb.velocity = new Vector2(moveDir.x, _rb.velocity.y) + _entity.KnockBack;
 
         RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distance);
         if (groundInfo.collider == false)
