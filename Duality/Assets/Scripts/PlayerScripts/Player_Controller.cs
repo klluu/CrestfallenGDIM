@@ -30,6 +30,8 @@ public class Player_Controller : MonoBehaviour
     private Vector3 respawnPoint;
     public GameObject fallDetector;
 
+    // Check Direction
+    private bool facingRight = true;
 
     void Start()
     {
@@ -75,11 +77,27 @@ public class Player_Controller : MonoBehaviour
 
         rb.velocity = new Vector2(walkSpeed * direction, rb.velocity.y) + _entity.KnockBack;
 
+        /***
         if (direction != 0f)
         {
             _character.transform.localScale = new Vector2(Mathf.Abs(_character.transform.localScale.x) * direction, _character.transform.localScale.y);
 
         }
+        ***/
+
+        
+        //change direction
+        if (facingRight && direction < 0)
+        {
+            transform.localScale = new Vector3(-2, 2, 1);
+            facingRight = false;
+        }
+        else if (!facingRight && direction > 0)
+        {
+            transform.localScale = new Vector3(2, 2, 1);
+            facingRight = true;
+        }
+
     }
 
     private void Jump()
