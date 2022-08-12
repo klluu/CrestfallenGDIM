@@ -30,7 +30,7 @@ public class Boss : MonoBehaviour
     private float distToPlayer;
     private bool canJump;
     [SerializeField] float jumpHeight;
-    private float timeJump = 2f;
+    private float timeJump = 3f;
  
 
     void Start()
@@ -53,7 +53,9 @@ public class Boss : MonoBehaviour
         {
             Patrolling();
         }
+        
 
+        
         distToPlayer = Vector2.Distance(transform.position, player.position);
         if (distToPlayer <= range)
         {
@@ -85,7 +87,7 @@ public class Boss : MonoBehaviour
         _rb.velocity = new Vector2(moveDir.x, _rb.velocity.y) + _entity.KnockBack;
 
         RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distance);
-        if (groundInfo.collider == false)
+        if (groundInfo.collider == false && canJump)
         {
             Flip();
         }
@@ -104,6 +106,7 @@ public class Boss : MonoBehaviour
     {
         canJump = false;
         float distanceFromPlayer = player.position.x - transform.position.x;
+        Debug.Log(distanceFromPlayer);
 
         if (isGrounded)
         {
@@ -122,6 +125,10 @@ public class Boss : MonoBehaviour
             EntityManager entity = collision.gameObject.GetComponent<EntityManager>();
 
             entity.TakeDamage(contactDamage);
+        }
+        if  (collision.gameObject.CompareTag("Wall"))
+        {
+            Flip();
         }
     }
 
