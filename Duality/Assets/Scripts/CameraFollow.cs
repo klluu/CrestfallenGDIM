@@ -18,6 +18,6 @@ public class CameraFollow : MonoBehaviour
         Vector2 targetPos = player.position;
         Vector2 smoothPos = Vector2.Lerp(transform.position, targetPos, followSpeed * Time.deltaTime);
 
-        transform.position = new Vector3(smoothPos.x + 1f, smoothPos.y + yPos, -15f);
+        transform.position = new Vector3(smoothPos.x + 1f, smoothPos.y + yPos, -1f);
     }
 }
