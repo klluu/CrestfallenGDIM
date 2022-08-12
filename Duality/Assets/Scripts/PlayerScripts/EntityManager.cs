@@ -15,6 +15,10 @@ public class EntityManager : MonoBehaviour
     public float MaxHealth = 100;
     public float Health;
 
+    // Movement Variables
+    public Vector2 KnockBack = Vector2.zero;
+    public float KnockBackResistance = .85f;
+
     private void Awake()
     {
         Health = MaxHealth;
@@ -46,5 +50,13 @@ public class EntityManager : MonoBehaviour
         //Destroy(gameObject);
     }
 
+    private void FixedUpdate()
+    {
+        KnockBack *= KnockBackResistance;
 
+        if (KnockBack.magnitude < .1f)
+        {
+            KnockBack = Vector2.zero;
+        }
+    }
 }

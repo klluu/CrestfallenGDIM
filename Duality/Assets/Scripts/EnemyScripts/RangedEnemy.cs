@@ -14,25 +14,25 @@ public class RangedEnemy : MonoBehaviour
 
     private bool mustPatrol;
     private bool canShoot;
-    
+
     // Movement Variables
-    private float speed = 1000f;
+    private float speed = 7.5f;
     private float distance = 10f;
-    
+
     // Ground Detection
     public Transform groundDetection;
     public LayerMask groundLayer;
     public Rigidbody2D rb;
 
-    
+
     // Shooting Projectile
     public Transform player;
     public Transform shootPos;
 
     public float range;
     private float distToPlayer;
-    private float timeShoot = 2f;
-    private float shootSpeed = 750f;
+    private float timeShoot = 6f;
+    private float shootSpeed = 20f;
 
     public GameObject bullet;
 
@@ -51,23 +51,23 @@ public class RangedEnemy : MonoBehaviour
         {
             Patrolling();
         }
-        
+
         distToPlayer = Vector2.Distance(transform.position, player.position);
         if (distToPlayer <= range)
         {
-            if(player.position.x > transform.position.x && transform.localScale.x < 0 || 
+            if (player.position.x > transform.position.x && transform.localScale.x < 0 ||
             player.position.x < transform.position.x && transform.localScale.x > 0)
             {
                 Flip();
             }
 
             mustPatrol = false;
-            rb.velocity = Vector2.zero;
+            _rb.velocity = new Vector2(0, _rb.velocity.y) + _entity.KnockBack;
 
             if (canShoot)
             {
                 StartCoroutine(Shoot());
-            } 
+            }
         }
         else
         {
@@ -77,8 +77,8 @@ public class RangedEnemy : MonoBehaviour
 
     void Patrolling()
     {
-        Vector2 moveDir = Vector2.right * speed * Time.deltaTime;
-        _rb.velocity = new Vector2(moveDir.x, _rb.velocity.y);
+        Vector2 moveDir = Vector2.right * speed;
+        _rb.velocity = new Vector2(moveDir.x, _rb.velocity.y) + _entity.KnockBack;
 
         RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distance);
         if (groundInfo.collider == false)
@@ -99,12 +99,12 @@ public class RangedEnemy : MonoBehaviour
     IEnumerator Shoot()
     {
         canShoot = false;
-        
+
         GameObject newBullet = Instantiate(bullet, shootPos.position, Quaternion.identity);
 
-        newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * Mathf.Sign(speed) * Time.fixedDeltaTime, 0);
+        newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * Mathf.Sign(speed), 0);
         yield return new WaitForSeconds(timeShoot);
-        
+
         canShoot = true;
     }
 
