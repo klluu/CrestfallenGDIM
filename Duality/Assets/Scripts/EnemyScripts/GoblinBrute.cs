@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonBrute : MonoBehaviour
+public class GoblinBrute : MonoBehaviour
 {
 
     // Controller Essentials

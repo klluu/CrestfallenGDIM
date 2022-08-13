@@ -22,7 +22,6 @@ public class Player_Controller : MonoBehaviour
 
     // Ground Variables
     public LayerMask ground;
-    public Collider2D footCollider;
 
     private bool isGrounded;
 
@@ -42,7 +41,7 @@ public class Player_Controller : MonoBehaviour
 
     void FixedUpdate()
     {
-        isGrounded = footCollider.IsTouchingLayers(ground);
+        isGrounded = GroundCheck();
         Walking();
 
         fallDetector.transform.position = new Vector2(transform.position.x, fallDetector.transform.position.y);
@@ -54,6 +53,7 @@ public class Player_Controller : MonoBehaviour
         {
             if (isGrounded || jumpWaitTimer > 0f)
             {
+                print("dog");
                 Jump();
             }
         }
@@ -75,7 +75,7 @@ public class Player_Controller : MonoBehaviour
     {
         float direction = Input.GetAxisRaw("Horizontal");
 
-        rb.velocity = new Vector2(walkSpeed * direction, rb.velocity.y) + _entity.KnockBack;
+        rb.velocity = new Vector2(walkSpeed * direction, rb.velocity.y);
 
         /***
         if (direction != 0f)
@@ -89,12 +89,12 @@ public class Player_Controller : MonoBehaviour
         //change direction
         if (facingRight && direction < 0)
         {
-            transform.localScale = new Vector3(-2, 2, 1);
+            transform.localScale = new Vector3(-1, 1, 1);
             facingRight = false;
         }
         else if (!facingRight && direction > 0)
         {
-            transform.localScale = new Vector3(2, 2, 1);
+            transform.localScale = new Vector3(1, 1, 1);
             facingRight = true;
         }
 
@@ -122,5 +122,17 @@ public class Player_Controller : MonoBehaviour
     {
         _entity.Health = 100f;
         transform.position = respawnPoint;
+    }
+
+    private bool GroundCheck()
+    {
+        RaycastHit2D groundInfo = Physics2D.Raycast(transform.position, Vector2.down, 9.8f, ground);
+
+        if (groundInfo)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -16,8 +16,7 @@ public class EntityManager : MonoBehaviour
     public float Health;
 
     // Movement Variables
-    public Vector2 KnockBack = Vector2.zero;
-    public float KnockBackResistance = .85f;
+    public bool KnockBack = false;
 
     private void Awake()
     {
@@ -48,15 +47,5 @@ public class EntityManager : MonoBehaviour
     {
         // Play Dead Animation?
         //Destroy(gameObject);
-    }
-
-    private void FixedUpdate()
-    {
-        KnockBack *= KnockBackResistance;
-
-        if (KnockBack.magnitude < .1f)
-        {
-            KnockBack = Vector2.zero;
-        }
     }
 }

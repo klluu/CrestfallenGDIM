@@ -67,7 +67,7 @@ public class Boss : MonoBehaviour
 
             
             mustPatrol = false;
-            _rb.velocity = new Vector2(0, _rb.velocity.y) + _entity.KnockBack;
+            _rb.velocity = new Vector2(0, _rb.velocity.y);
 
             if (canJump)
             {
@@ -84,7 +84,7 @@ public class Boss : MonoBehaviour
     void Patrolling()
     {
         Vector2 moveDir = Vector2.right * speed;
-        _rb.velocity = new Vector2(moveDir.x, _rb.velocity.y) + _entity.KnockBack;
+        _rb.velocity = new Vector2(moveDir.x, _rb.velocity.y);
 
         RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distance);
         if (groundInfo.collider == false && canJump)
