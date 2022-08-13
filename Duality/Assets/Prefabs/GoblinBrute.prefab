@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 476497108566560700}
   - component: {fileID: 1614171427}
   m_Layer: 8
-  m_Name: Brawler 1 Enemy
+  m_Name: GoblinBrute
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 7841353173932764593}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.5, y: -6.13, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -121,6 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 6097767848008126341}
   _entity: {fileID: 476497108566560700}
+  _col: {fileID: 1614171427}
   contactDamage: 100
   groundLayer:
     serializedVersion: 2
@@ -139,7 +140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHealth: 100
   Health: 0
-  KnockBack: {x: 0, y: 0}
+  KnockBack: 0
 --- !u!70 &1614171427
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
