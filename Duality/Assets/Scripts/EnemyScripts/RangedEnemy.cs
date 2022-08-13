@@ -10,6 +10,8 @@ public class RangedEnemy : MonoBehaviour
     private Rigidbody2D _rb;
     [SerializeField]
     private EntityManager _entity;
+    [SerializeField]
+    private Collider2D _col;
 
 
     private bool mustPatrol;
@@ -18,6 +20,11 @@ public class RangedEnemy : MonoBehaviour
     // Movement Variables
     private float speed = 7.5f;
     private float distance = 10f;
+    private float downCheckDistance = 0;
+    private float flipCheckDistance = 3f;
+    private float airTime = 0;
+    private float flipCD = 0;
+    private float flipTime = .5f;
 
     // Ground Detection
     public Transform groundDetection;
@@ -45,8 +52,10 @@ public class RangedEnemy : MonoBehaviour
     }
 
 
-    void Update()
+    void FixedUpdate()
     {
+        GroundCheck();
+
         if (mustPatrol)
         {
             Patrolling();
@@ -62,7 +71,8 @@ public class RangedEnemy : MonoBehaviour
             }
 
             mustPatrol = false;
-            _rb.velocity = new Vector2(0, _rb.velocity.y);
+
+            _rb.velocity = new Vector2(_rb.velocity.x * .99f, _rb.velocity.y);
 
             if (canShoot)
             {
@@ -75,21 +85,22 @@ public class RangedEnemy : MonoBehaviour
         }
     }
 
-    void Patrolling()
+    private void Patrolling()
     {
         Vector2 moveDir = Vector2.right * speed;
-        _rb.velocity = new Vector2(moveDir.x, _rb.velocity.y);
 
-        RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distance);
-        if (groundInfo.collider == false)
-        {
-            Flip();
-        }
+        float addMove = moveDir.x * Time.fixedDeltaTime;
+        addMove *= 1 - Mathf.Clamp(_rb.velocity.x / speed, 0, 1);
 
+        _rb.velocity = new Vector2(_rb.velocity.x + addMove, _rb.velocity.y);
     }
 
-    void Flip()
+    private void Flip()
     {
+        if (flipCD > Time.time | Mathf.Abs(_rb.velocity.x) > Mathf.Abs(speed) + .1f) return;
+        flipCD = Time.time + flipTime;
+
+        _rb.velocity = new Vector2(-_rb.velocity.x, _rb.velocity.y);
         mustPatrol = false;
         transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
         speed *= -1;
@@ -111,5 +122,37 @@ public class RangedEnemy : MonoBehaviour
     private void Death()
     {
         Destroy(gameObject);
+    }
+
+    private bool GroundCheck()
+    {
+        RaycastHit2D groundInfo = Physics2D.Raycast(transform.position, Vector2.down, _col.bounds.size.y + flipCheckDistance, groundLayer);
+        RaycastHit2D forwardInfo = Physics2D.BoxCast(transform.position, new Vector2(.1f, 6f), 0, Vector2.right * Mathf.Sign(speed), 2.5f, groundLayer);
+
+        if (groundInfo)
+        {
+            if (groundInfo.distance > _col.bounds.size.y + downCheckDistance)
+            {
+                airTime += Time.fixedDeltaTime;
+            }
+
+            if (forwardInfo)
+            {
+                Flip();
+            }
+
+            return true;
+        }
+        else
+        {
+            if (airTime < .1f)
+            {
+                Flip();
+            }
+
+            airTime += Time.fixedDeltaTime;
+        }
+
+        return false;
     }
 }

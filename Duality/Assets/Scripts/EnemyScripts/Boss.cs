@@ -11,6 +11,8 @@ public class Boss : MonoBehaviour
     [SerializeField]
     private EntityManager _entity;
     public Transform player;
+    [SerializeField]
+    private GameObject winScreen;
 
     // Movement Variables
     private bool mustPatrol;
@@ -134,6 +136,8 @@ public class Boss : MonoBehaviour
 
     private void Death()
     {
+        winScreen.SetActive(true);
+
         Destroy(gameObject);
     }
 }

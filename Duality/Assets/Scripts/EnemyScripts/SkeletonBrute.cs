@@ -62,7 +62,6 @@ public class SkeletonBrute : MonoBehaviour
         addMove *= 1 - Mathf.Clamp(_rb.velocity.x / speed, 0, 1);
 
         _rb.velocity = new Vector2(_rb.velocity.x + addMove, _rb.velocity.y);
-        print(_rb.velocity.x);
     }
 
     private void Flip()
